@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 import zerobase.stockdevidend.model.Company;
 import zerobase.stockdevidend.model.Dividend;
 import zerobase.stockdevidend.model.ScrapResult;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+@Component
 public class YahooFinanceScraper implements Scrapper{
 
     private static final String STATIC_URL = "https://finance.yahoo.com/quote/%s/history?period1=%d&period2=%d&interval=1mo";
