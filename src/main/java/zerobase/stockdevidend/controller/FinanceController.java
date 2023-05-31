@@ -13,7 +13,6 @@ import zerobase.stockdevidend.service.FinanceService;
 @RequiredArgsConstructor
 @RequestMapping("/finance")
 public class FinanceController {
-
     private final FinanceService financeService;
 
     @GetMapping("/dividend/{companyName}")

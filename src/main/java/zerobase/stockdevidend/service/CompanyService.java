@@ -1,7 +1,9 @@
 package zerobase.stockdevidend.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class CompanyService {
-
+    private final Trie trie;
     private final Scrapper yahooFinanceScrapper;
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
@@ -56,5 +58,28 @@ public class CompanyService {
 
     public Page<CompanyEntity> getAllCompany(final Pageable pageable){
         return companyRepository.findAll(pageable);
+    }
+
+    public void addAutoCompleteKeyword(String keyword){
+        trie.put(keyword, null);
+    }
+
+    public List<String> autoComplete(String prefix){
+        return (List<String>) trie.prefixMap(prefix).keySet().stream()
+                .collect(Collectors.toList());
+    }
+
+    public void deleteAutocompleteKeyword(String keyword){
+        trie.remove(keyword);
+    }
+
+    public List<String> getCompanyNameByKeyword(String keyword){
+        Pageable limit = PageRequest.of(0, 10);
+
+        Page<CompanyEntity> result = companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
+
+        return result.stream()
+                .map(e -> e.getName())
+                .collect(Collectors.toList());
     }
 }
