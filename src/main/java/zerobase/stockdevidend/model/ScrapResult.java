@@ -1,6 +1,7 @@
 package zerobase.stockdevidend.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
