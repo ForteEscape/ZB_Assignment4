@@ -1,12 +1,14 @@
 package zerobase.stockdevidend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import zerobase.stockdevidend.domain.CompanyEntity;
 import zerobase.stockdevidend.domain.DividendEntity;
 import zerobase.stockdevidend.model.Company;
 import zerobase.stockdevidend.model.Dividend;
 import zerobase.stockdevidend.model.ScrapResult;
+import zerobase.stockdevidend.model.constans.CacheKey;
 import zerobase.stockdevidend.repository.CompanyRepository;
 import zerobase.stockdevidend.repository.DividendRepository;
 
@@ -20,6 +22,10 @@ public class FinanceService {
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
 
+    // 동일한 요청이 자주 들어오는가?
+    // 자주 변경되는 데이터인가?
+
+    @Cacheable(key = "#companyName", value = CacheKey.KEY_FINANCE)
     public ScrapResult getDividendByCompanyName(String companyName){
         // 1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = companyRepository.findByName(companyName)

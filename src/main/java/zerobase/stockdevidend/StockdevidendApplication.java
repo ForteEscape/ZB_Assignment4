@@ -8,6 +8,8 @@ import org.jsoup.select.Elements;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import zerobase.stockdevidend.model.Company;
 import zerobase.stockdevidend.model.ScrapResult;
 import zerobase.stockdevidend.scraper.Scrapper;
@@ -17,6 +19,8 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@EnableScheduling
+@EnableCaching
 public class StockdevidendApplication {
 
 	public static void main(String[] args) {

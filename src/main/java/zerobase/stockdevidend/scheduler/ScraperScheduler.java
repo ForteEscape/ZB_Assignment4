@@ -2,12 +2,14 @@ package zerobase.stockdevidend.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import zerobase.stockdevidend.domain.CompanyEntity;
 import zerobase.stockdevidend.domain.DividendEntity;
 import zerobase.stockdevidend.model.Company;
 import zerobase.stockdevidend.model.ScrapResult;
+import zerobase.stockdevidend.model.constans.CacheKey;
 import zerobase.stockdevidend.repository.CompanyRepository;
 import zerobase.stockdevidend.repository.DividendRepository;
 import zerobase.stockdevidend.scraper.Scrapper;
@@ -22,6 +24,7 @@ public class ScraperScheduler {
     private final DividendRepository dividendRepository;
     private final Scrapper yahooFinanceScraper;
 
+    @CacheEvict(value = CacheKey.KEY_FINANCE, allEntries = true)
     @Scheduled(cron = "${scheduler.scrap.yahoo}")
     public void yahooFinanceScheduling(){
         log.info("scrapping started");
