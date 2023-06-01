@@ -18,7 +18,7 @@ import zerobase.stockdevidend.scraper.YahooFinanceScraper;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 @EnableScheduling
 @EnableCaching
 public class StockdevidendApplication {
