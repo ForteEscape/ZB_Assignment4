@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import zerobase.stockdevidend.domain.CompanyEntity;
 import zerobase.stockdevidend.domain.DividendEntity;
+import zerobase.stockdevidend.exception.impl.NoCompanyException;
 import zerobase.stockdevidend.model.Company;
 import zerobase.stockdevidend.model.ScrapResult;
 import zerobase.stockdevidend.repository.CompanyRepository;
@@ -85,7 +86,7 @@ public class CompanyService {
 
     public String deleteCompany(String ticker){
         CompanyEntity company = companyRepository.findByTicker(ticker)
-                .orElseThrow(() -> new RuntimeException("해당하는 이름의 회사가 존재하지 않습니다."));
+                .orElseThrow(NoCompanyException::new);
 
         dividendRepository.deleteAllByCompanyId(company.getId());
         companyRepository.delete(company);

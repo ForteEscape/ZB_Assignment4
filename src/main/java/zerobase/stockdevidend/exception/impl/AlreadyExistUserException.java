@@ -1,0 +1,16 @@
+package zerobase.stockdevidend.exception.impl;
+
+import org.springframework.http.HttpStatus;
+import zerobase.stockdevidend.exception.AbstractException;
+
+public class AlreadyExistUserException extends AbstractException {
+    @Override
+    public int getStatusCode() {
+        return HttpStatus.BAD_REQUEST.value();
+    }
+
+    @Override
+    public String tetMessage() {
+        return "이미 존재하는 사용자 명입니다.";
+    }
+}

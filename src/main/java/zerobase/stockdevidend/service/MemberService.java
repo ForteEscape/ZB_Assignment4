@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import zerobase.stockdevidend.exception.impl.AlreadyExistUserException;
 import zerobase.stockdevidend.model.Auth;
 import zerobase.stockdevidend.model.MemberEntity;
 import zerobase.stockdevidend.repository.MemberRepository;
@@ -29,7 +30,7 @@ public class MemberService implements UserDetailsService {
         boolean exists = memberRepository.existsByUsername(member.getUsername());
 
         if (exists){
-            throw new RuntimeException("이미 사용 중인 아이디입니다.");
+            throw new AlreadyExistUserException();
         }
 
         member.setPassword(passwordEncoder.encode(member.getPassword()));
