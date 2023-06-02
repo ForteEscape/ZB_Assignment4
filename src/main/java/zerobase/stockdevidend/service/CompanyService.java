@@ -79,7 +79,18 @@ public class CompanyService {
         Page<CompanyEntity> result = companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
 
         return result.stream()
-                .map(e -> e.getName())
+                .map(CompanyEntity::getName)
                 .collect(Collectors.toList());
+    }
+
+    public String deleteCompany(String ticker){
+        CompanyEntity company = companyRepository.findByTicker(ticker)
+                .orElseThrow(() -> new RuntimeException("해당하는 이름의 회사가 존재하지 않습니다."));
+
+        dividendRepository.deleteAllByCompanyId(company.getId());
+        companyRepository.delete(company);
+
+        deleteAutocompleteKeyword(company.getName());
+        return company.getName();
     }
 }
